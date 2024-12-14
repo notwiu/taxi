@@ -25,11 +25,11 @@ gerar_planilha(lista_corridas, "planilha_corridas.xlsx")
 messagebox.showinfo("Sucesso", "Planilha já foi gerada com sucesso")
 
 def proxima_corrida():
-    origem = entrada_origem.get()
+    destino = entrada_destino.get()
     bairro = entrada_bairro.get()
     vouncher = entrada_vouncher.get()
 
-    if not origem and not bairro and not vouncher:
+    if not destino and not bairro and not vouncher:
         messagebox.showwarning("Aviso", "Por favor, coloque pelo menos um campo para conseguir prosseguir.")
         return
 
@@ -39,7 +39,7 @@ dados = {
     "Vouncher": vouncher if vouncher else "Não informado",
     "Bairro": bairro if bairro else "Não informado",
     "Preço (R$)": preco,
-    "Origem": origem if origem else "Não Informado",
+    "Destino": destino if destino else "Não Informado",
 }
 
 lista_corridas.append(dados)
