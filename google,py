@@ -1,74 +1,66 @@
-import tkinter as tk
-from tkinter import messagebox
 import pandas as pd
+from google.colab import files
 
 def calcular_preco(bairro):
-    preços = {
-        'Bayeux' : 150,
-        'Altiplano' : 100,
-        'Centro' : 50,
-        'Valentina' : 20,
+    precos = {
+        'Altiplano': 100,
+        'Centro': 150,
+        'Valentina': 200,
+        'Santa Rita': 100,
     }
-    return preços.get(bairro, 50)
+
+    return precos.get(bairro, 50)
 
 def gerar_planilha(dados, arquivo):
     df = pd.DataFrame(dados)
     df.to_excel(arquivo, index=False)
 
-def finalizar_dados():
-    if not lista_corridas:
-        messagebox.showwarning("Atenção", "Nenhuma corrida foi registrada, por favor coloque os dados e tente novamente!")
-        return
-    gerar_planilha(lista_corridas, "planilha_corridas.xlsx")
-    messagebox.showinfo("Sucesso", "Planilha já foi gerada com sucesso")
-
-def proxima_corrida():
-    destino = entrada_destino.get()
-    bairro = entrada_bairro.get()
-    voucher = entrada_voucher.get()
+def registrar_corrida(lista_corridas):
+    print("\nPor favor, preencha os dados da corrida:")
+    destino = input("Destino (Rua): ")
+    bairro = input("Bairro: ")
+    voucher = input("Número do Voucher: ")
 
     if not destino and not bairro and not voucher:
-        messagebox.showwarning("Aviso", "Por favor, coloque pelo menos um campo para conseguir prosseguir.")
-        return
+        print("Por favor, preencha pelo menos um campo antes de adicionar a corrida.")
+        return lista_corridas
 
     preco = calcular_preco(bairro)
 
     dados = {
-        "Voucher": voucher if voucher else "Não informado",
-        "Bairro": bairro if bairro else "Não informado",
+        "Voucher": voucher if voucher else "Não Informado",
+        "Bairro": bairro if bairro else "Não Informado",
         "Preço (R$)": preco,
         "Destino": destino if destino else "Não Informado",
     }
 
     lista_corridas.append(dados)
 
-    entrada_destino.delete(0, tk.END)
-    entrada_bairro.delete(0, tk.END)
-    entrada_voucher.delete(0, tk.END)
+    print("Corrida adicionada! Pode adicionar outra.")
+    return lista_corridas
 
-    messagebox.showinfo("Sucesso", "Corrida adicionada! Pode adicionar outra.")
+def finalizar_dados(lista_corridas):
+    if not lista_corridas:
+        print("Nenhuma corrida registrada! Não é possível gerar a planilha.")
+        return
+    gerar_planilha(lista_corridas, "corridas_taxista.xlsx")
+    print("Planilha gerada com sucesso!")
 
-root = tk.Tk()
-root.title("Planilhas de Corridas")
+def download_planilha():
+    files.download("corridas_taxista.xlsx")
 
-lista_corridas = []
+def registrar_varias_corridas():
+    lista_corridas = []
 
-tk.Label(root, text="Destino (Rua)").grid(row=0, column=0, padx=10, pady=5)
-entrada_destino = tk.Entry(root, width=30)
-entrada_destino.grid(row=0, column=1, padx=10, pady=5)
+    while True:
+        lista_corridas = registrar_corrida(lista_corridas)
 
-tk.Label(root, text="Bairro").grid(row=2, column=0, padx=10, pady=5)
-entrada_bairro = tk.Entry(root, width=30)
-entrada_bairro.grid(row=2, column=1, padx=10, pady=5)
+        continuar = input("\nDeseja adicionar outra corrida? (sim/não): ").strip().lower()
+        if continuar != "sim":
+            break
 
-tk.Label(root, text="Número do Voucher").grid(row=3, column=0, padx=10, pady=5)
-entrada_voucher = tk.Entry(root, width=30)
-entrada_voucher.grid(row=3, column=1, padx=10, pady=5)
+    finalizar_dados(lista_corridas)
 
-botao_proxima = tk.Button(root, text="Próxima", command=proxima_corrida)
-botao_proxima.grid(row=4, column=0, pady=20)
+    download_planilha()
 
-botao_finalizar = tk.Button(root, text="Finalizar", command=finalizar_dados)
-botao_finalizar.grid(row=4, column=1, pady=20)
-
-root.mainloop()
+registrar_varias_corridas()
