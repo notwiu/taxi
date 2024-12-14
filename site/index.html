@@ -1,11 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Planilhas</title>
+    <title>Registro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
-    
+    <div class="container">
+        <h1>Corridas</h1>
+        <div class="form-container">
+            <label for="destino">Destino (Rua):</label>
+            <input type="text" id="destino" placeholder="Digite o destino">
+            
+            <label for="bairro">Bairro:</label>
+            <input type="text" id="bairro" placeholder="Digite o bairro">
+            
+            <label for="voucher">Número do Voucher:</label>
+            <input type="text" id="voucher" placeholder="Digite o número do voucher">
+            
+            <button id="adicionarCorrida">Adicionar Corrida</button>
+            <button id="finalizar">Finalizar e Gerar Planilha</button>
+        </div>
+        
+        <div id="mensagem"></div>
+        
+        <table id="tabelaCorridas">
+            <thead>
+                <tr>
+                    <th>Voucher</th>
+                    <th>Bairro</th>
+                    <th>Preço (R$)</th>
+                    <th>Destino</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <button id="downloadButton" style="display:none;">Baixar Planilha (XLSX)</button>
+        <button id="reset">Limpar</button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
