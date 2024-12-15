@@ -15,8 +15,9 @@ document.getElementById('adicionarCorrida').addEventListener('click', () => {
     const destino = document.getElementById('destino').value;
     const bairro = document.getElementById('bairro').value;
     const voucher = document.getElementById('voucher').value;
+    const matricula = document.getElementById('matricula').value;
     
-    if (!destino && !bairro && !voucher) {
+    if (!destino && !bairro && !voucher && !matricula) {
         alert('Por favor, preencha pelo menos um campo!');
         return;
     }
@@ -26,7 +27,8 @@ document.getElementById('adicionarCorrida').addEventListener('click', () => {
         "Voucher": voucher || "Não Informado",
         "Bairro": bairro || "Não Informado",
         "Preço (R$)": preco,
-        "Destino": destino || "Não Informado"
+        "Destino": destino || "Não Informado",
+        "Matrícula": matricula || "Não Informado"
     };
     
     listaCorridas.push(corrida);
@@ -38,13 +40,14 @@ document.getElementById('adicionarCorrida').addEventListener('click', () => {
         <td>${corrida.Bairro}</td>
         <td>${corrida["Preço (R$)"]}</td>
         <td>${corrida.Destino}</td>
+        <td>${corrida.Matrícula}</td>
     `;
     tbody.appendChild(tr);
     
-    // Limpar os campos após adicionar a corrida
     document.getElementById('destino').value = '';
     document.getElementById('bairro').value = '';
     document.getElementById('voucher').value = '';
+    document.getElementById('matricula').value = '';
 });
 
 document.getElementById('finalizar').addEventListener('click', () => {
@@ -58,19 +61,18 @@ document.getElementById('finalizar').addEventListener('click', () => {
 
 document.getElementById('downloadButton').addEventListener('click', () => {
     const ws_data = [
-        ["Voucher", "Bairro", "Preço (R$)", "Destino"], // Cabeçalho em negrito
-        ...listaCorridas.map(corrida => [corrida.Voucher, corrida.Bairro, corrida["Preço (R$)"], corrida.Destino])
+        ["Voucher", "Bairro", "Preço (R$)", "Destino", "Matrícula"], 
+        ...listaCorridas.map(corrida => [corrida.Voucher, corrida.Bairro, corrida["Preço (R$)"], corrida.Destino, corrida.Matrícula])
     ];
 
     const ws = XLSX.utils.aoa_to_sheet(ws_data);
 
-    // Estilos
     const headerStyle = {
         font: { bold: true },
         alignment: { horizontal: "center" }
     };
 
-    for (let col = 0; col < 4; col++) {
+    for (let col = 0; col < 5; col++) {
         const cell = ws[XLSX.utils.encode_cell({ r: 0, c: col })];
         if (cell) {
             cell.s = headerStyle;
