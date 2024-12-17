@@ -15,9 +15,9 @@ document.getElementById('adicionarCorrida').addEventListener('click', () => {
     const destino = document.getElementById('destino').value;
     const bairro = document.getElementById('bairro').value;
     const voucher = document.getElementById('voucher').value;
-    const matricula = document.getElementById('matricula').value;
+    const motorista = document.getElementById('motorista').value;
     
-    if (!destino && !bairro && !voucher && !matricula) {
+    if (!destino && !bairro && !voucher && !motorista) {
         alert('Por favor, preencha pelo menos um campo!');
         return;
     }
@@ -28,7 +28,7 @@ document.getElementById('adicionarCorrida').addEventListener('click', () => {
         "Bairro": bairro || "Não Informado",
         "Preço (R$)": preco,
         "Destino": destino || "Não Informado",
-        "Matrícula": matricula || "Não Informado"
+        "Motorista": motorista || "Não Informado"
     };
     
     listaCorridas.push(corrida);
@@ -47,7 +47,7 @@ document.getElementById('adicionarCorrida').addEventListener('click', () => {
     document.getElementById('destino').value = '';
     document.getElementById('bairro').value = '';
     document.getElementById('voucher').value = '';
-    document.getElementById('matricula').value = '';
+    document.getElementById('motorista').value = '';
 });
 
 document.getElementById('finalizar').addEventListener('click', () => {
